@@ -1,0 +1,16 @@
+
+{
+	"help" : "List all available commands",
+	"cli-status" : "Show conection's status",
+	"time-conn" : "Show time's connection",
+	"detec-cam" : "Show all detected cameras",
+	"detec-stages" : "Show all detected stages",
+	"show-inte-time" : "Show integration time",
+	"show-pri-cam" : "Show the reference camera",
+	"scan-n-lines" : "Show number of lines scanned",
+    "show-ret-speed" : "Show return's speed",
+    "show-fr-period" : "Show frame period",
+    "show-percent" : "Show overlay percentage",
+    "show-angle" : "Show sweep angle configured",
+    "show-ini-pos" : "Show take initial position"
+}

@@ -9,6 +9,9 @@
 
 using json = nlohmann::json;
 
+const char *edit_json_config = "edit-config";
+const char *command_help = "help";
+
 ParseCommand::ParseCommand()
 {
 
@@ -20,42 +23,70 @@ ParseCommand::~ParseCommand()
 }
 
 std::string ParseCommand::executeCommand() {
-	system(this->str_command);
+	
+	readCommand();
+	std::cout << jsonFile.find(this->str_command).key() << std::endl;
+	if (strcmp(this->str_command, command_help) == 0)
+		return showCommands();
+	/*if (strcmp(this->str_command, edit_json_config) == 0)
+		editConfigFile();
+	else
+		system(this->str_command);*/
 	std::vector<std::string> returnRandom = { "fail","sucess","not found","wierd","crash" };
 	int idx = rand() % 4;
 
-	//std::cout << " aiii ohhhh: " << returnRandom[idx] <<std::endl;
-	//std::cout << "ai ta rolando: " << replyTest(returnRandom[idx]) << std::endl;
 	return replyTest(returnRandom[idx]);
 }
 
+void ParseCommand::editConfigFile() {
+	std::cout << "Here gonna edit the config file" << std::endl;
+}
+
 void ParseCommand::readCommand() {
-	char str[256] = { 'ls' };
-	if (strcpy_s(this->str_command, str))
-		readConfigJson();
+
+		readConfigJson("../SocketServer/config/commands_description.json");
 }
 
 
-void ParseCommand::readConfigJson() {
-	std::ifstream file("hySpex_transcript.json");
+void ParseCommand::readConfigJson(std::string fileName) {
+	//std::ifstream file("hySpex_transcript.json");
+	std::ifstream file(fileName);
 	json jsonFile;
-	file >> jsonFile;
-
-
-	for (json::iterator it = jsonFile.begin(); it != jsonFile.end(); ++it) {
-		std::cout << it.key() << " : " << it.value() << "\n";
-		if (it.key().compare(std::string(this->str_command)) == 0)
-			std::cout << "ubsui subso subsoi: " << it.value() << std::endl;
+	if (file.is_open())
+	{
+		file >> this->jsonFile;
 	}
+	else {
+		std::cout << "Unable to open json file!" << std::endl;
+	}
+	
+}
+
+std::string ParseCommand::showCommands() {
+	std::string list;
+	for (json::iterator it = jsonFile.begin(); it != jsonFile.end(); ++it) {
+		list += it.key() + " - " + it.value().get<std::string>() + "\n"; 
+	}
+	std::cout << list << std::endl;
+	return list;
 }
 
 
 std::string ParseCommand::replyTest(std::string str) {
-	std::ifstream file("test.json");
 	json jsonFile;
-	file >> jsonFile;
+	std::ifstream file("test.json");
+	if (file.is_open())
+	{	
+		file >> jsonFile;
+	}
+	else {
+		return std::string("Unable to open the file!\n");
+	}
 
 	return jsonFile[str];
-	return std::string("teste");
 }
 
+
+void ParseCommand::createCommandMap() {
+	//map_command("help", this->showCommands);
+}

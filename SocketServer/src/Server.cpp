@@ -73,27 +73,15 @@ void Server::connectionManager() {
 
 	while (my_socket > 0) {
 		receiveData();
-		//sendData("");
 	}
 
 	closesocket(server);
 }
 
 void Server::sendData(std::string str) {
-	std::cout << "Server: " + str + "coisinho";
-	/*
-	std::cin >> buffer;
-	std::cout << "String: " << s << std::endl;
-	bb = *s.c_str();
-	std::cout << "Char: " << s.c_str() <<std::endl;
-	std::cout << bb <<std::endl;
-	send(my_socket, s.c_str(), sizeof(buffer), MSG_NOSIGNAL);
-	*/
-
-	std::string msg = "executed! " + str;
-
+	std::cout << "Server: " + str;
+	std::string msg = str;
 	send(my_socket, msg.c_str(), sizeof(buffer), 0);
-	//std::cout << "executed" << std::endl;
 }
 
 void Server::receiveData() {
@@ -106,8 +94,8 @@ void Server::receiveData() {
 	//std::cout << "Nombre " << con_status <<std::endl;
 	std::cout << buffer << std::endl;
 
-	//strcpy_s(this->p_cmd.str_command, buffer);
-	////this->p_cmd.executeCommand2();
-	//sendData(this->p_cmd.executeCommand());
-	//this->p_cmd.readCommand();
+	strcpy_s(this->p_cmd.str_command, buffer);
+	//this->p_cmd.executeCommand2();
+	sendData(this->p_cmd.executeCommand());
+	
 }
