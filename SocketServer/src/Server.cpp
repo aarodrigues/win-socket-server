@@ -79,7 +79,7 @@ void Server::connectionManager() {
 }
 
 void Server::sendData(std::string str) {
-	std::cout << "Server: " + str;
+	std::cout << "Server: " + str << std::endl;
 	std::string msg = str;
 	send(my_socket, msg.c_str(), sizeof(buffer), 0);
 }

@@ -25,9 +25,12 @@ ParseCommand::~ParseCommand()
 std::string ParseCommand::executeCommand() {
 	
 	readCommand();
-	std::cout << jsonFile.find(this->str_command).key() << std::endl;
+	//used to find the string into json file
+	//std::string result = jsonFile.find(this->str_command) != jsonFile.end() ? jsonFile.find(this->str_command).key() : this->str_command;
 	if (strcmp(this->str_command, command_help) == 0)
 		return showCommands();
+	else
+		return std::string(this->str_command);
 	/*if (strcmp(this->str_command, edit_json_config) == 0)
 		editConfigFile();
 	else
